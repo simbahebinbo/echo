@@ -30,3 +30,27 @@ $ go run . -peer /ip4/192.168.1.8/tcp/45363/p2p/QmNpf6rQUFFTR9syqLASvzTsfDdBaUYv
 ```
 
 Each node sends a message to all peers every second, and each peer responds with an echo message.
+
+
+
+```shell
+$ go build
+```
+
+```shell
+
+# open a first terminal
+$ ./telephone                                      
+2024/06/18 17:28:05 Host ID: QmNn9FPZXj1o5wAm5aekkmHSE19YU65zAYZARuk3aPnmuD
+2024/06/18 17:28:05 Connect to me on:
+2024/06/18 17:28:05   /ip4/192.168.8.6/tcp/64129/p2p/QmNn9FPZXj1o5wAm5aekkmHSE19YU65zAYZARuk3aPnmuD
+2024/06/18 17:28:05   /ip4/127.0.0.1/tcp/64129/p2p/QmNn9FPZXj1o5wAm5aekkmHSE19YU65zAYZARuk3aPnmuD
+
+# open a second terminal
+$ ./telephone -peer /ip4/192.168.8.6/tcp/64129/p2p/QmNn9FPZXj1o5wAm5aekkmHSE19YU65zAYZARuk3aPnmuD
+2024/06/18 17:29:46 Host ID: QmT2SGPb6TaVvcqE1Ukxq2Wgbhw942jLJ1yawuQ11XmXUq
+2024/06/18 17:29:46 Connect to me on:
+2024/06/18 17:29:46   /ip4/192.168.8.6/tcp/64185/p2p/QmT2SGPb6TaVvcqE1Ukxq2Wgbhw942jLJ1yawuQ11XmXUq
+2024/06/18 17:29:46   /ip4/127.0.0.1/tcp/64185/p2p/QmT2SGPb6TaVvcqE1Ukxq2Wgbhw942jLJ1yawuQ11XmXUq
+2024/06/18 17:29:46 Connection established with bootstrap node: "{QmNn9FPZXj1o5wAm5aekkmHSE19YU65zAYZARuk3aPnmuD: [/ip4/192.168.8.6/tcp/64129]}"
+```
