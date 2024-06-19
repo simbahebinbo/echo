@@ -3,9 +3,9 @@ package main
 import (
 	"context"
 	"fmt"
-	"net/rpc"
 	"time"
 
+	"github.com/libp2p/go-libp2p-gorpc"
 	"github.com/libp2p/go-libp2p/core/host"
 	"github.com/libp2p/go-libp2p/core/peer"
 	"github.com/libp2p/go-libp2p/core/protocol"
@@ -29,7 +29,6 @@ func NewService(host host.Host, protocol protocol.ID) *Service {
 func (s *Service) SetupRPC() error {
 	echoRPCAPI := EchoRPCAPI{service: s}
 
-	rpc.ServeCodec()
 	s.rpcServer = rpc.NewServer(s.host, s.protocol)
 	err := s.rpcServer.Register(&echoRPCAPI)
 	if err != nil {
@@ -37,6 +36,7 @@ func (s *Service) SetupRPC() error {
 	}
 
 	s.rpcClient = rpc.NewClientWithServer(s.host, s.protocol, s.rpcServer)
+
 	return nil
 }
 
@@ -50,7 +50,7 @@ func (s *Service) StartMessaging(ctx context.Context) {
 			return
 		case <-ticker.C:
 			s.counter++
-			s.Echo(fmt.Sprintf("Message (%d): Hello from %s", s.counter, s.host.ID().Pretty()))
+			s.Echo(fmt.Sprintf("Message (%d): Hello from %s", s.counter, s.host.ID().String()))
 		}
 	}
 }
@@ -70,9 +70,9 @@ func (s *Service) Echo(message string) {
 
 	for i, err := range errs {
 		if err != nil {
-			fmt.Printf("Peer %s returned error: %-v\n", peers[i].Pretty(), err)
+			fmt.Printf("Peer %s returned error: %-v\n", peers[i].String(), err)
 		} else {
-			fmt.Printf("Peer %s echoed: %s\n", peers[i].Pretty(), replies[i].Message)
+			fmt.Printf("Peer %s echoed: %s\n", peers[i].String(), replies[i].Message)
 		}
 	}
 }

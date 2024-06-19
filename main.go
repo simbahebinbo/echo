@@ -57,8 +57,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	//go Discover(ctx, h, dht, config.Rendezvous)
-	//go service.StartMessaging(ctx)
+	go Discover(ctx, h, dht, config.Rendezvous)
+	go service.StartMessaging(ctx)
 
 	run(h, cancel)
 }
