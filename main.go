@@ -4,14 +4,14 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"github.com/libp2p/go-libp2p/core/protocol"
 	"log"
 	"os"
 	"os/signal"
 	"strings"
 	"syscall"
 
-	"github.com/libp2p/go-libp2p-core/host"
-	"github.com/libp2p/go-libp2p-core/protocol"
+	"github.com/libp2p/go-libp2p/core/host"
 	"github.com/multiformats/go-multiaddr"
 )
 
@@ -40,10 +40,10 @@ func main() {
 		log.Fatal(err)
 	}
 
-	log.Printf("Host ID: %s", h.ID().Pretty())
+	log.Printf("Host ID: %s", h.ID().String())
 	log.Printf("Connect to me on:")
 	for _, addr := range h.Addrs() {
-		log.Printf("  %s/p2p/%s", addr, h.ID().Pretty())
+		log.Printf("  %s/p2p/%s", addr, h.ID().String())
 	}
 
 	dht, err := NewDHT(ctx, h, config.DiscoveryPeers)
@@ -57,8 +57,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	go Discover(ctx, h, dht, config.Rendezvous)
-	go service.StartMessaging(ctx)
+	//go Discover(ctx, h, dht, config.Rendezvous)
+	//go service.StartMessaging(ctx)
 
 	run(h, cancel)
 }

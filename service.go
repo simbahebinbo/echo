@@ -3,12 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
+	"net/rpc"
 	"time"
 
-	"github.com/libp2p/go-libp2p-core/host"
-	"github.com/libp2p/go-libp2p-core/peer"
-	"github.com/libp2p/go-libp2p-core/protocol"
-	"github.com/libp2p/go-libp2p-gorpc"
+	"github.com/libp2p/go-libp2p/core/host"
+	"github.com/libp2p/go-libp2p/core/peer"
+	"github.com/libp2p/go-libp2p/core/protocol"
 )
 
 type Service struct {
@@ -29,6 +29,7 @@ func NewService(host host.Host, protocol protocol.ID) *Service {
 func (s *Service) SetupRPC() error {
 	echoRPCAPI := EchoRPCAPI{service: s}
 
+	rpc.ServeCodec()
 	s.rpcServer = rpc.NewServer(s.host, s.protocol)
 	err := s.rpcServer.Register(&echoRPCAPI)
 	if err != nil {
